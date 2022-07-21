@@ -1,8 +1,8 @@
-import { CssBaseline, Grid } from '@mui/material';
-
+import { CssBaseline } from '@mui/material';
 import Header from '../Header';
 import List from '../List';
 import Map from '../Map';
+import { GridContainer, GridItem } from './App.styled';
 
 const App = () => {
   return (
@@ -11,14 +11,14 @@ const App = () => {
 
       <Header />
 
-      <Grid container spacing={3} style={{ width: '100%' }}>
-        <Grid item xs={12} md={4}>
+      <GridContainer container spacing={3}>
+        <GridItem item xs={12} md={4}>
           <List />
-        </Grid>
-        <Grid item xs={12} md={8}>
+        </GridItem>
+        <GridItem item xs={12} md={8}>
           <Map />
-        </Grid>
-      </Grid>
+        </GridItem>
+      </GridContainer>
     </>
   )
 }
