@@ -1,8 +1,11 @@
-import { MapContainer, TileLayer } from 'react-leaflet';
+import { MapContainer, TileLayer, useMapEvents } from 'react-leaflet';
 import Leaflet from "leaflet";
 import "leaflet/dist/leaflet.css";
+import PropTypes from 'prop-types';
 
-const Map = () => {
+const Map = (props = {}) => {
+  const { coordinates, children } = props;
+
   // const isMobile = useMediaQuery('(min-width: 600px');
 
   const icon = Leaflet.icon({
@@ -12,10 +15,7 @@ const Map = () => {
   });
 
   const defaultProps = {
-    center: {
-      lat: 40.768147,
-      lng: -73.994086
-    },
+    center: coordinates,
     margin: [50, 50, 50, 50],
     zoom: 18,
     icon
@@ -27,6 +27,7 @@ const Map = () => {
       center={[defaultProps.center.lat, defaultProps.center.lng]}
       zoom={defaultProps.zoom}
     >
+      {children}
       <TileLayer
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -40,6 +41,10 @@ const Map = () => {
       {/*</Marker>*/}
     </MapContainer>
   )
+}
+
+Map.propTypes = {
+  coordinates: PropTypes.object.isRequired
 }
 
 export default Map;

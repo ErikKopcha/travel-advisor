@@ -5,7 +5,9 @@ import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import { ListWrap, FormControlWrap } from './List.styled';
 
-const List = () => {
+const List = (props = {}) => {
+  const { places = [] } = props;
+
   const [loading, setLoading] = useState(true);
   const [type, setType] = useState('');
   const [rating, setRating] = useState('');
