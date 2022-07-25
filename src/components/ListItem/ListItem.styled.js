@@ -7,6 +7,12 @@ export const StyledCard = styled(Card)(() => ({
   boxShadow: '0 0 10px -3px rgba(0,0,0,0.4);'
 }));
 
+export const IconText = styled('span')(() => ({
+  display: 'flex',
+  alignItems: 'center',
+  gap: '5px'
+}));
+
 export const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
   return <IconButton {...other} />;

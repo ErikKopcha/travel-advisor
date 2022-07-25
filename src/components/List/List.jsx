@@ -13,7 +13,7 @@ const List = (props = {}) => {
   const [rating, setRating] = useState('');
 
   const skeletons = [1, 2, 3, 4].map((e, i) => <Skeleton key={e + i} />);
-  const list = [1, 2, 3, 4, 5].map((item, index) => <ListItem key={index} />);
+  const list = places.map((item, index) => <ListItem place={item} key={index} />);
 
   const content = loading ? skeletons : list;
 
