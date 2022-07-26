@@ -10,7 +10,7 @@ const MapControl = (props = {}) => {
   } = props;
 
   const map = useMapEvents({
-    move: () => {
+    moveend: () => {
       setCoordinates({
         lat: map.getCenter().lat,
         lng: map.getCenter().lng

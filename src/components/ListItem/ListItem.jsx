@@ -2,7 +2,7 @@ import { useState } from 'react';
 import CardHeader from '@mui/material/CardHeader';
 import Avatar from '@mui/material/Avatar';
 import { red } from '@mui/material/colors';
-import { Rating } from '@mui/material';
+import { Chip, Rating } from '@mui/material';
 import CardMedia from '@mui/material/CardMedia';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
@@ -17,7 +17,8 @@ import LanguageIcon from '@mui/icons-material/Language';
 import {
   StyledCard,
   ExpandMore,
-  IconText
+  IconText,
+  CuisineBox
 } from './ListItem.styled';
 
 const ListItem = ({ place }) => {
@@ -31,7 +32,8 @@ const ListItem = ({ place }) => {
     website,
     email,
     address,
-    rating = 0
+    rating = 0,
+    cuisine = []
   } = place;
 
   const [expanded, setExpanded] = useState(false);
@@ -92,8 +94,11 @@ const ListItem = ({ place }) => {
             {email ? <IconText><EmailIcon /><a href={`mailto:${email}`}>{email}</a></IconText> : null}
           </Typography>
           <Typography paragraph>
-            {website ? <IconText><LanguageIcon /><a target='_blank' href={website}>{website}</a></IconText> : null}
+            {website ? <IconText><LanguageIcon /><a target='_blank' href={website}>Website</a></IconText> : null}
           </Typography>
+          <CuisineBox>
+            {cuisine.map(({ name, key }) => (<Chip key={key} label={name} size="small" />))}
+          </CuisineBox>
           <Typography paragraph>
             {description}
           </Typography>

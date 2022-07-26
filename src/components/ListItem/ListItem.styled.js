@@ -13,6 +13,14 @@ export const IconText = styled('span')(() => ({
   gap: '5px'
 }));
 
+export const CuisineBox = styled('div')(() => ({
+  display: 'flex',
+  flexWrap: 'wrap',
+  alignItems: 'center',
+  gap: '5px',
+  margin: '10px 0'
+}));
+
 export const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
   return <IconButton {...other} />;
