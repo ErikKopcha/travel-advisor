@@ -6,7 +6,8 @@ const MapControl = (props = {}) => {
   const {
     setCoordinates,
     setBounds,
-    geoCoords
+    geoCoords,
+    setSelectedPopup
   } = props;
 
   const map = useMapEvents({
@@ -21,6 +22,14 @@ const MapControl = (props = {}) => {
         ne: bounds.getNorthEast(),
         sw: bounds.getSouthWest()
       })
+    },
+    popupopen: (e) => {
+      // try {
+      //   const id = e.popup.options.children.props.place.address + '-' + e.popup.options.children.props.place.location_id;
+      //   setSelectedPopup(id);
+      // } catch (e) {
+      //   console.warn(e);
+      // }
     }
   });
 
@@ -44,7 +53,8 @@ const MapControl = (props = {}) => {
 MapControl.propTypes = {
   setCoordinates: PropTypes.func.isRequired,
   setBounds: PropTypes.func.isRequired,
-  geoCoords: PropTypes.object
+  geoCoords: PropTypes.object,
+  setSelectedPopup: PropTypes.func.isRequired,
 }
 
 export default MapControl;

@@ -1,12 +1,12 @@
-import { MapContainer, TileLayer, useMapEvents } from 'react-leaflet';
+import { MapContainer, Marker, Popup, TileLayer } from 'react-leaflet';
 import Leaflet from "leaflet";
 import "leaflet/dist/leaflet.css";
 import PropTypes from 'prop-types';
+import uuid from 'react-uuid'
+import ListItem from '../ListItem';
 
 const Map = (props = {}) => {
-  const { coordinates, children } = props;
-
-  // const isMobile = useMediaQuery('(min-width: 600px');
+  const { coordinates, children, places = [] } = props;
 
   const icon = Leaflet.icon({
     iconUrl: "https://unpkg.com/leaflet@1.4.0/dist/images/marker-icon.png",
@@ -32,13 +32,21 @@ const Map = (props = {}) => {
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
-      {/*<Marker*/}
-      {/*  icon={defaultProps.icon}*/}
-      {/*  position={[defaultProps.center.lat, defaultProps.center.lng]}>*/}
-      {/*  <Popup>*/}
-      {/*    A pretty CSS3 popup. <br /> Easily customizable.*/}
-      {/*  </Popup>*/}
-      {/*</Marker>*/}
+
+      {places.map((place) => {
+        if (place.latitude && place.longitude) {
+          return (
+            <Marker
+              key={uuid()}
+              icon={defaultProps.icon}
+              position={[Number(place.latitude), Number(place.longitude)]}>
+              <Popup>
+                <ListItem place={place} isSmaller />
+              </Popup>
+            </Marker>
+          )
+        }
+      })}
     </MapContainer>
   )
 }

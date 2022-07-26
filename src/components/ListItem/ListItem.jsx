@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import PropTypes from 'prop-types';
 import CardHeader from '@mui/material/CardHeader';
 import Avatar from '@mui/material/Avatar';
 import { red } from '@mui/material/colors';
@@ -21,7 +22,7 @@ import {
   CuisineBox
 } from './ListItem.styled';
 
-const ListItem = ({ place }) => {
+const ListItem = ({ place, isSmaller = false }) => {
   const MAX_DESCRIPTION_LENGTH = 180;
 
   const {
@@ -51,7 +52,7 @@ const ListItem = ({ place }) => {
           </Avatar>
         }
         action={
-          <Rating value={Number(rating)} style={{ pointerEvents: 'none' }} />
+          <Rating size={isSmaller ? 'small' : ''} value={Number(rating)} style={{ pointerEvents: 'none' }} />
         }
         title={(name || 'No Name')}
         subheader={address}
@@ -68,48 +69,55 @@ const ListItem = ({ place }) => {
           {description.length > MAX_DESCRIPTION_LENGTH ? `${description.substring(0, MAX_DESCRIPTION_LENGTH)}...` : description || 'No description'}
         </Typography>
       </CardContent>
-      <CardActions
-        onClick={handleExpandClick}
-        style={{ borderTop: '1px solid rgba(0,0,0,0.2)', cursor: 'pointer' }} disableSpacing>
-        <Typography variant="p">
-          Show more
-        </Typography>
-        <ExpandMore
-          expand={expanded}
-          aria-expanded={expanded}
-          aria-label="show more"
-        >
-          <ExpandMoreIcon />
-        </ExpandMore>
-      </CardActions>
-      <Collapse in={expanded} timeout="auto" unmountOnExit>
-        <CardContent>
-          <Typography paragraph>
-            {address ? <IconText><LocationOnIcon />{address}</IconText> : null}
-          </Typography>
-          <Typography paragraph>
-            {phone ? <IconText><LocalPhoneIcon /><a href={`tel:${phone}`}>{phone}</a></IconText> : null}
-          </Typography>
-          <Typography paragraph>
-            {email ? <IconText><EmailIcon /><a href={`mailto:${email}`}>{email}</a></IconText> : null}
-          </Typography>
-          <Typography paragraph>
-            {website ? <IconText><LanguageIcon /><a target='_blank' href={website}>Website</a></IconText> : null}
-          </Typography>
-          <CuisineBox>
-            {cuisine.map(({ name, key }) => (<Chip key={key} label={name} size="small" />))}
-          </CuisineBox>
-          <Typography paragraph>
-            {description}
-          </Typography>
-        </CardContent>
-      </Collapse>
+
+      {!isSmaller && (
+        <>
+          <CardActions
+            onClick={handleExpandClick}
+            style={{ borderTop: '1px solid rgba(0,0,0,0.2)', cursor: 'pointer' }} disableSpacing>
+            <Typography variant="p">
+              Show more
+            </Typography>
+            <ExpandMore
+              expand={expanded}
+              aria-expanded={expanded}
+              aria-label="show more"
+            >
+              <ExpandMoreIcon />
+            </ExpandMore>
+          </CardActions>
+
+          <Collapse in={expanded} timeout="auto" unmountOnExit>
+            <CardContent>
+              <Typography paragraph>
+                {address ? <IconText><LocationOnIcon />{address}</IconText> : null}
+              </Typography>
+              <Typography paragraph>
+                {phone ? <IconText><LocalPhoneIcon /><a href={`tel:${phone}`}>{phone}</a></IconText> : null}
+              </Typography>
+              <Typography paragraph>
+                {email ? <IconText><EmailIcon /><a href={`mailto:${email}`}>{email}</a></IconText> : null}
+              </Typography>
+              <Typography paragraph>
+                {website ? <IconText><LanguageIcon /><a target='_blank' href={website}>Website</a></IconText> : null}
+              </Typography>
+              <CuisineBox>
+                {cuisine.map(({ name, key }) => (<Chip key={key} label={name} size="small" />))}
+              </CuisineBox>
+              <Typography paragraph>
+                {description}
+              </Typography>
+            </CardContent>
+          </Collapse>
+        </>
+      )}
     </StyledCard>
   );
 }
 
 ListItem.propTypes = {
-
-};
+  place: PropTypes.object.isRequired,
+  isSmaller: PropTypes.bool
+}
 
 export default ListItem;

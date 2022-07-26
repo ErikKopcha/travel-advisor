@@ -4,9 +4,10 @@ import ListItem from '../ListItem/ListItem';
 import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import { ListWrap, FormControlWrap } from './List.styled';
+import PropTypes from 'prop-types';
 
 const List = (props = {}) => {
-  const { places = [] } = props;
+  const { places = [], selectedPopup } = props;
 
   const [loading, setLoading] = useState(true);
   const [type, setType] = useState('');
@@ -62,6 +63,11 @@ const List = (props = {}) => {
         {content}
       </ListWrap>
   )
+}
+
+List.propTypes = {
+  places: PropTypes.array.isRequired,
+  selectedPopup: PropTypes.string
 }
 
 export default List;

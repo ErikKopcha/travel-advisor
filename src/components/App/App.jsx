@@ -10,10 +10,11 @@ import { getPlacesData, getDefaultPlacesData } from '../../api';
 import '../../access/styles/global.css';
 
 const App = () => {
-  const [places, setPlaces] = useState();
+  const [places, setPlaces] = useState([]);
   const [bounds, setBounds] = useState(null);
   const [geoCoords, setGeoCoords] = useState(null);
   const [coordinates, setCoordinates] = useState(  { lat: 49.8374288838513, lng: 24.0257717576607 });
+  const [selectedPopup, setSelectedPopup] = useState('');
 
   useEffect(() => {
     navigator.geolocation.getCurrentPosition(({ coords: { latitude, longitude } }) => {
@@ -64,14 +65,21 @@ const App = () => {
 
       <GridContainer container spacing={3}>
         <GridItem item xs={12} md={4}>
-          <List places={places} />
+          <List
+            selectedPopup={selectedPopup}
+            places={places}
+          />
         </GridItem>
         <GridItem item xs={12} md={8}>
-          <Map coordinates={coordinates}>
+          <Map
+            places={places}
+            coordinates={coordinates}
+          >
             <MapControl
               setCoordinates={setCoordinates}
               setBounds={setBounds}
               geoCoords={geoCoords}
+              setSelectedPopup={(id) => setSelectedPopup(id)}
             />
           </Map>
         </GridItem>
