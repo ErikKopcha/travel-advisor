@@ -7,14 +7,20 @@ import { ListWrap, FormControlWrap } from './List.styled';
 import PropTypes from 'prop-types';
 
 const List = (props = {}) => {
-  const { places = [], selectedPopup } = props;
+  const {
+    places = [],
+    type,
+    setType,
+    rating,
+    setRating,
+    selectedPopup
+  } = props;
 
   const [loading, setLoading] = useState(true);
-  const [type, setType] = useState('');
-  const [rating, setRating] = useState('');
 
   const skeletons = [1, 2, 3, 4].map((e, i) => <Skeleton key={e + i} />);
-  const list = places.map((item, index) => <ListItem place={item} key={index} />);
+
+  let list = places.map((item, index) => <ListItem place={item} key={index} />);
 
   const content = loading ? skeletons : list;
 
@@ -36,7 +42,7 @@ const List = (props = {}) => {
               id="type"
               label="Type"
             >
-              <MenuItem value=""><em>All</em></MenuItem>
+              {/*<MenuItem value=""><em>All</em></MenuItem>*/}
               <MenuItem value="restaurants">Restaurants</MenuItem>
               <MenuItem value="hotels">Hotels</MenuItem>
               <MenuItem value="attractions">Attractions</MenuItem>
@@ -67,7 +73,11 @@ const List = (props = {}) => {
 
 List.propTypes = {
   places: PropTypes.array.isRequired,
-  selectedPopup: PropTypes.string
+  selectedPopup: PropTypes.string,
+  type: PropTypes.string.isRequired,
+  setType: PropTypes.func.isRequired,
+  rating: PropTypes.any.isRequired,
+  setRating: PropTypes.func.isRequired,
 }
 
 export default List;

@@ -1,16 +1,16 @@
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
-import SearchIcon from '@mui/icons-material/Search';
+// import SearchIcon from '@mui/icons-material/Search';
 import AirplaneTicketIcon from '@mui/icons-material/AirplaneTicket';
 import {
-  Search,
-  SearchIconWrapper,
-  StyledInputBase,
+  // Search,
+  // SearchIconWrapper,
+  // StyledInputBase,
   TypographyCentered
 } from './Header.styled';
 
-const Header = () => {
+const Header = ({ setCoordinates }) => {
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
@@ -24,15 +24,15 @@ const Header = () => {
             <AirplaneTicketIcon style={{ marginRight: '5px' }} />
             Travel Advisor
           </TypographyCentered>
-          <Search>
-            <SearchIconWrapper>
-              <SearchIcon />
-            </SearchIconWrapper>
-            <StyledInputBase
-              placeholder="Search…"
-              inputProps={{ 'aria-label': 'search' }}
-            />
-          </Search>
+          {/*<Search>*/}
+          {/*  <SearchIconWrapper>*/}
+          {/*    <SearchIcon />*/}
+          {/*  </SearchIconWrapper>*/}
+          {/*  <StyledInputBase*/}
+          {/*    placeholder="Search…"*/}
+          {/*    inputProps={{ 'aria-label': 'search' }}*/}
+          {/*  />*/}
+          {/*</Search>*/}
         </Toolbar>
       </AppBar>
     </Box>

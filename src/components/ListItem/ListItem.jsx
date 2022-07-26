@@ -47,12 +47,14 @@ const ListItem = ({ place, isSmaller = false }) => {
     <StyledCard>
       <CardHeader
         avatar={
-          <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-            {(name || 'No Name').substring(0, 1).toUpperCase()}
-          </Avatar>
+          !isSmaller && (
+            <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
+              {(name || 'No Name').substring(0, 1).toUpperCase()}
+            </Avatar>
+          )
         }
         action={
-          <Rating size={isSmaller ? 'small' : ''} value={Number(rating)} style={{ pointerEvents: 'none' }} />
+          <Rating size={isSmaller ? 'small' : ''} value={Number(rating)} style={{ pointerEvents: 'none', marginTop: '10px' }} />
         }
         title={(name || 'No Name')}
         subheader={address}
