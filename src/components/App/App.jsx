@@ -6,78 +6,78 @@ import Map from '../Map';
 import { GridContainer, GridItem } from './App.styled';
 import MapControl from '../Map/MapControl';
 import { getPlacesData, getDefaultPlacesData } from '../../api';
+import { useDispatch } from 'react-redux';
 
 import '../../access/styles/global.css';
-import ListItem from '../ListItem';
+import { setCoordinates, setGeoCoords } from '../../redux/slices/coordinatesSlice';
 
 const App = () => {
+  const dispatch = useDispatch();
+
   const [places, setPlaces] = useState([]);
   const [filteredPlaces, setFilteredPlaces] = useState([]);
-  const [bounds, setBounds] = useState(null);
-  const [geoCoords, setGeoCoords] = useState(null);
-  const [coordinates, setCoordinates] = useState(  { lat: 49.8374288838513, lng: 24.0257717576607 });
-  const [selectedPopup, setSelectedPopup] = useState('');
-  const [type, setType] = useState('restaurants');
-  const [rating, setRating] = useState('');
-  const [isLimitError, setIsLimitError] = useState(false);
 
   useEffect(() => {
     navigator.geolocation.getCurrentPosition(({ coords: { latitude, longitude } }) => {
-      setCoordinates({
-        lat: latitude,
-        lng: longitude
-      });
+      dispatch(setCoordinates({ lat: latitude, lng: longitude }))
+      dispatch(setGeoCoords({ lat: latitude, lng: longitude }))
+    });
 
-      setGeoCoords({
-        lat: latitude,
-        lng: longitude
-      });
+    getDefaultPlacesData().then(
+      result => {
+        setPlaces(result);
+      },
+      error => {
+        setPlaces([]);
+        console.warn(error);
+      }
+    ).catch((error) => {
+      setPlaces([]);
+      console.warn(error);
     });
   }, []);
 
-  useEffect(() => {
-    if (isLimitError) return;
+  // useEffect(() => {
+  //   if (isLimitError) return;
+  //
+  //   getPlacesData({
+  //     sw: bounds?.sw,
+  //     ne: bounds?.ne
+  //   }).then((data) => {
+  //     // is limit error ! need fix
+  //     if (!data.length) {
+  //       setIsLimitError(true);
+  //
+  //       getDefaultPlacesData().then(
+  //         result => {
+  //           setPlaces(result);
+  //         },
+  //         error => {
+  //           setPlaces([]);
+  //           console.warn(error);
+  //         }
+  //       ).catch((error) => {
+  //         setPlaces([]);
+  //         console.warn(error);
+  //       });
+  //     } else {
+  //       setPlaces(data);
+  //     }
+  //
+  //   }).catch((error) => {
+  //     console.error(error);
+  //   })
+  // }, [bounds, coordinates]);
 
-    getPlacesData({
-      type,
-      rating,
-      sw: bounds?.sw,
-      ne: bounds?.ne
-    }).then((data) => {
-      // is limit error ! need fix
-      if (!data.length) {
-        setIsLimitError(true);
-
-        getDefaultPlacesData().then(
-          result => {
-            setPlaces(result);
-          },
-          error => {
-            setPlaces([]);
-            console.warn(error);
-          }
-        ).catch((error) => {
-          setPlaces([]);
-          console.warn(error);
-        });
-      } else {
-        setPlaces(data);
-      }
-
-    }).catch((error) => {
-      console.error(error);
-    })
-  }, [type, bounds, coordinates]);
-
-  useEffect(() => {
-    let list = [];
-
-    if (rating) {
-      list = places.filter(r => Number(r.rating) >= Number(rating));
-    }
-
-    setFilteredPlaces(list);
-    }, [rating])
+  // useEffect(() => {
+  //   let list = [];
+  //
+  //   if (rating) {
+  //     list = places.filter(r => Number(r.rating) >= Number(rating));
+  //   }
+  //
+  //   setFilteredPlaces(list);
+  //   }, [rating])
 
   const renderPlacesData = filteredPlaces.length ? filteredPlaces : places;
 
@@ -91,26 +91,11 @@ const App = () => {
 
       <GridContainer container spacing={3}>
         <GridItem item xs={12} md={4}>
-          <List
-            selectedPopup={selectedPopup}
-            places={renderPlacesData}
-            type={type}
-            setType={setType}
-            rating={rating}
-            setRating={setRating}
-          />
+          <List places={renderPlacesData} />
         </GridItem>
         <GridItem item xs={12} md={8}>
-          <Map
-            places={renderPlacesData}
-            coordinates={coordinates}
-          >
-            <MapControl
-              setCoordinates={setCoordinates}
-              setBounds={setBounds}
-              geoCoords={geoCoords}
-              setSelectedPopup={(id) => setSelectedPopup(id)}
-            />
+          <Map places={renderPlacesData}>
+            <MapControl />
           </Map>
         </GridItem>
       </GridContainer>

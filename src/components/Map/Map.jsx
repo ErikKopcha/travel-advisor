@@ -4,9 +4,11 @@ import "leaflet/dist/leaflet.css";
 import PropTypes from 'prop-types';
 import uuid from 'react-uuid'
 import ListItem from '../ListItem';
+import { useSelector } from 'react-redux';
 
 const Map = (props = {}) => {
-  const { coordinates, children, places = [] } = props;
+  const coordinates = useSelector(state => state.coordinates.value.coordinates);
+  const { children, places = [] } = props;
 
   const icon = Leaflet.icon({
     iconUrl: "https://unpkg.com/leaflet@1.4.0/dist/images/marker-icon.png",
@@ -49,10 +51,6 @@ const Map = (props = {}) => {
       })}
     </MapContainer>
   )
-}
-
-Map.propTypes = {
-  coordinates: PropTypes.object.isRequired
 }
 
 export default Map;
