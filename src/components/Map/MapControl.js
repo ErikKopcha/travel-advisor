@@ -6,9 +6,12 @@ import { setCoordinates, setBounds, setSelectedPopup } from '../../redux/slices/
 const MapControl = () => {
   const dispatch = useDispatch();
   const geoCoords = useSelector(state => state.coordinates.value.geoCoords);
+  const { isDefaultData } = useSelector(state => state.places);
 
   const map = useMapEvents({
     moveend: () => {
+      if (isDefaultData) return;
+
       const bounds = map.getBounds();
 
       dispatch(setCoordinates({

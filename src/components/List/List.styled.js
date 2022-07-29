@@ -1,7 +1,7 @@
 import { styled } from '@mui/material/styles';
-import { Select } from '@mui/material';
 
 export const ListWrap = styled('div')(() => ({
+  position: 'relative',
   display: 'flex',
   flexDirection: 'column',
   gap: '20px',

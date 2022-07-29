@@ -6,7 +6,7 @@ export const GridContainer = styled(Grid)(() => ({
     margin: '0',
     maxHeight: 'calc(100vh - 64px)',
     height: 'calc(100vh - 64px)',
-    overflow: 'hidden'
+    overflow: 'auto'
 }));
 
 export const GridItem = styled(Grid)(() => ({

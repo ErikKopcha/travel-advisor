@@ -1,42 +1,44 @@
-import { createRef, useEffect, useRef, useState } from 'react';
 import Skeleton from '../Skeleton';
 import ListItem from '../ListItem/ListItem';
-import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
+import { Alert, AlertTitle, FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import { ListWrap, FormControlWrap } from './List.styled';
-import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { changeRating, changeType } from '../../redux/slices/filterSlice';
-import { RATINGS, TYPES } from '../../types';
+import { LOADING_TYPES, RATINGS, TYPES } from '../../types';
+import { getFilteredArrayByRating } from '../../helpers';
 
-const List = (props = {}) => {
-  const filterData = useSelector((state) => state.filter.value);
+const List = () => {
   const dispatch = useDispatch();
-  const [loading, setLoading] = useState(true);
+  const filterData = useSelector((state) => state.filter.value);
+  const { entities, loading, isDefaultData } = useSelector(state => state.places);
 
-  useEffect(() => {
-    setTimeout(() => { setLoading(false) }, 2000)
-  }, [])
-
-  const {
-    places = [],
-  } = props;
-
+  const places = getFilteredArrayByRating(entities, filterData.rating);
   const skeletons = [1, 2, 3, 4].map((e, i) => <Skeleton key={e + i} />);
   const list = places.map((item, index) => {
     return <ListItem place={item} key={index} />
   } );
 
-  const content = loading ? skeletons : list;
+  const content = loading === LOADING_TYPES.pending ? skeletons : list;
 
   return (
       <ListWrap>
         <Typography variant="h5">Restaurants, Hotels & Attractions around you</Typography>
 
+        <Alert style={{ position: 'sticky', top: '0', zIndex: 999 }} variant="filled" severity="error">
+          <AlertTitle><strong>WARNING!</strong></AlertTitle>
+          <strong>
+            The limit for receiving data from the server has been reached. <br/>
+            Type selection is blocked.
+            Saved data is loaded.
+          </strong>
+        </Alert>
+
         <FormControlWrap>
           <FormControl sx={{ m: 0, minWidth: 120, width: '100%' }}>
             <InputLabel id="type-label">Type</InputLabel>
             <Select
+              disabled={isDefaultData}
               value={filterData.type}
               onChange={({ target }) => dispatch(changeType(TYPES[target.value]))}
               labelId="type"
@@ -77,10 +79,6 @@ const List = (props = {}) => {
         {content}
       </ListWrap>
   )
-}
-
-List.propTypes = {
-  places: PropTypes.array.isRequired
 }
 
 export default List;

@@ -10,3 +10,10 @@ export const TYPES = {
   hotels: 'hotels',
   attractions: 'attractions',
 };
+
+export const LOADING_TYPES = {
+  idle: 'idle',
+  pending: 'pending',
+  succeeded: 'succeeded',
+  failed: 'failed'
+};

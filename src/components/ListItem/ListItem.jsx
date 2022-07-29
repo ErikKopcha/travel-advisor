@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import PropTypes from 'prop-types';
+import { getRandomRangeNum } from '../../helpers';
 import CardHeader from '@mui/material/CardHeader';
 import Avatar from '@mui/material/Avatar';
-import { red } from '@mui/material/colors';
+import { red, blue, orange, purple, green, amber, common, indigo, lime, pink, teal } from '@mui/material/colors';
 import { Chip, Rating } from '@mui/material';
 import CardMedia from '@mui/material/CardMedia';
 import CardContent from '@mui/material/CardContent';
@@ -24,6 +25,11 @@ import {
 
 const ListItem = ({ place, isSmaller = false }) => {
   const MAX_DESCRIPTION_LENGTH = 180;
+  const COLORS = [red, blue, orange, purple, green, amber, common, indigo, lime, pink, teal];
+
+  const getRandomColor = () => {
+    return COLORS[getRandomRangeNum(0, COLORS.length)]
+  };
 
   const {
     photo,
@@ -48,7 +54,7 @@ const ListItem = ({ place, isSmaller = false }) => {
       <CardHeader
         avatar={
           !isSmaller && (
-            <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
+            <Avatar sx={{ bgcolor: getRandomColor()[500] }} aria-label="recipe">
               {(name || 'No Name').substring(0, 1).toUpperCase()}
             </Avatar>
           )

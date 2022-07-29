@@ -1,14 +1,34 @@
-import { MapContainer, Marker, Popup, TileLayer } from 'react-leaflet';
+import { Marker, Popup, TileLayer } from 'react-leaflet';
 import Leaflet from "leaflet";
 import "leaflet/dist/leaflet.css";
-import PropTypes from 'prop-types';
 import uuid from 'react-uuid'
 import ListItem from '../ListItem';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { useEffect } from 'react';
+import { setCoordinates, setGeoCoords } from '../../redux/slices/coordinatesSlice';
+import { fetchPlaces } from '../../redux/slices/placesSlice';
+import { getFilteredArrayByRating } from '../../helpers';
+import { CustomMapContainer } from './Map.styled';
 
 const Map = (props = {}) => {
-  const coordinates = useSelector(state => state.coordinates.value.coordinates);
-  const { children, places = [] } = props;
+  const dispatch = useDispatch();
+  const { children } = props;
+  const { coordinates, bounds } = useSelector(state => state.coordinates.value);
+
+  useEffect(() => {
+    navigator.geolocation.getCurrentPosition(({ coords: { latitude, longitude } }) => {
+      dispatch(setCoordinates({ lat: latitude, lng: longitude }))
+      dispatch(setGeoCoords({ lat: latitude, lng: longitude }))
+    });
+  }, []);
+
+  useEffect(() => {
+    dispatch(fetchPlaces(bounds));
+  }, [bounds, coordinates]);
+
+  const { entities } = useSelector(state => state.places);
+  const filterData = useSelector((state) => state.filter.value);
+  const places = getFilteredArrayByRating(entities, filterData.rating);
 
   const icon = Leaflet.icon({
     iconUrl: "https://unpkg.com/leaflet@1.4.0/dist/images/marker-icon.png",
@@ -24,8 +44,7 @@ const Map = (props = {}) => {
   };
 
   return (
-    <MapContainer
-      style={{ maxHeight: 'calc(100vh - 64px)', overflow: 'hidden', height: 'calc(100vh - 64px)' }}
+    <CustomMapContainer
       center={[defaultProps.center.lat, defaultProps.center.lng]}
       zoom={defaultProps.zoom}
     >
@@ -49,7 +68,7 @@ const Map = (props = {}) => {
           )
         }
       })}
-    </MapContainer>
+    </CustomMapContainer>
   )
 }
 
