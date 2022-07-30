@@ -6,33 +6,37 @@ import { ListWrap, FormControlWrap } from './List.styled';
 import { useDispatch, useSelector } from 'react-redux';
 import { changeRating, changeType } from '../../redux/slices/filterSlice';
 import { LOADING_TYPES, RATINGS, TYPES } from '../../types';
-import { getFilteredArrayByRating } from '../../helpers';
+import { getFilteredArrayByRating, getRandomRangeNum } from '../../helpers';
+import { amber, blue, common, green, indigo, lime, orange, pink, purple, red, teal } from '@mui/material/colors';
 
 const List = () => {
   const dispatch = useDispatch();
   const filterData = useSelector((state) => state.filter.value);
   const { entities, loading, isDefaultData } = useSelector(state => state.places);
 
+  const COLORS = [red, blue, orange, purple, green, amber, common, indigo, lime, pink, teal];
   const places = getFilteredArrayByRating(entities, filterData.rating);
+
   const skeletons = [1, 2, 3, 4].map((e, i) => <Skeleton key={e + i} />);
   const list = places.map((item, index) => {
-    return <ListItem place={item} key={index} />
-  } );
-
+    return <ListItem place={item} color={COLORS[getRandomRangeNum(0, COLORS.length)][500]} key={index} />
+  });
   const content = loading === LOADING_TYPES.pending ? skeletons : list;
 
   return (
       <ListWrap>
         <Typography variant="h5">Restaurants, Hotels & Attractions around you</Typography>
 
-        <Alert style={{ position: 'sticky', top: '0', zIndex: 999 }} variant="filled" severity="error">
-          <AlertTitle><strong>WARNING!</strong></AlertTitle>
-          <strong>
-            The limit for receiving data from the server has been reached. <br/>
-            Type selection is blocked.
-            Saved data is loaded.
-          </strong>
-        </Alert>
+        {isDefaultData && (
+          <Alert style={{ position: 'sticky', top: '0', zIndex: 999 }} variant="filled" severity="error">
+            <AlertTitle><strong>WARNING!</strong></AlertTitle>
+            <strong>
+              The limit for receiving data from the server has been reached. <br/>
+              Type selection is blocked.
+              Saved data is loaded.
+            </strong>
+          </Alert>
+        )}
 
         <FormControlWrap>
           <FormControl sx={{ m: 0, minWidth: 120, width: '100%' }}>
