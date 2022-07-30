@@ -26,7 +26,7 @@ const getPlacesData = async ({ sw, ne, type }) => {
 }
 
 const getDefaultPlacesData = async () => {
-  return await (await fetch(`https://travel-advisor-map.vercel.app/data`)).json();
+  return await (await fetch(`https://travel-advisor-map.vercel.app/data:3001`)).json();
 }
 
 export {
