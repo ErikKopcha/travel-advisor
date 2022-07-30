@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { places } from '../data-places';
 
 const getPlacesData = async ({ sw, ne, type }) => {
   try {
@@ -26,7 +27,9 @@ const getPlacesData = async ({ sw, ne, type }) => {
 }
 
 const getDefaultPlacesData = async () => {
-  return await (await fetch(`https://travel-advisor-map.vercel.app/data:3001`)).json();
+  // return await (await fetch(`https://travel-advisor-map.vercel.app/data:3001`)).json();
+
+  return places;
 }
 
 export {
