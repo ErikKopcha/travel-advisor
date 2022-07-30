@@ -13,7 +13,7 @@ const Header = () => {
             variant="h6"
             noWrap
             component="div"
-            sx={{ flexGrow: 1, display: { xs: 'none', sm: 'flex' } }}
+            sx={{ flexGrow: 1, display: { xs: 'flex', sm: 'flex' } }}
           >
             <AirplaneTicketIcon style={{ marginRight: '5px' }} />
             Travel Advisor

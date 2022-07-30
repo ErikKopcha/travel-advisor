@@ -14,7 +14,7 @@ const App = () => {
 
       <Header />
 
-      <GridContainer container spacing={3}>
+      <GridContainer container spacing={3} className="root-container">
         <GridItem item xs={12} md={4}>
           <List />
         </GridItem>
