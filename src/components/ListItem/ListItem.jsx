@@ -1,8 +1,10 @@
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { setCoordinates, setGeoCoords } from '../../redux/slices/coordinatesSlice';
 import PropTypes from 'prop-types';
 import CardHeader from '@mui/material/CardHeader';
 import Avatar from '@mui/material/Avatar';
-import { Chip, Rating } from '@mui/material';
+import { Button, Chip, Rating } from '@mui/material';
 import CardMedia from '@mui/material/CardMedia';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
@@ -22,6 +24,7 @@ import {
 } from './ListItem.styled';
 
 const ListItem = ({ place, isSmaller = false, color }) => {
+  const dispatch = useDispatch();
   const MAX_DESCRIPTION_LENGTH = 180;
 
   const {
@@ -33,7 +36,9 @@ const ListItem = ({ place, isSmaller = false, color }) => {
     email,
     address,
     rating = 0,
-    cuisine = []
+    cuisine = [],
+    latitude,
+    longitude
   } = place;
 
   const [expanded, setExpanded] = useState(false);
@@ -69,6 +74,19 @@ const ListItem = ({ place, isSmaller = false, color }) => {
         <Typography variant="body2" color="text.secondary">
           {description.length > MAX_DESCRIPTION_LENGTH ? `${description.substring(0, MAX_DESCRIPTION_LENGTH)}...` : description || 'No description'}
         </Typography>
+        {!isSmaller && (
+          <Button
+            onClick={() => {
+              dispatch(setCoordinates({ lat: Number(latitude), lng: Number(longitude) }))
+              dispatch(setGeoCoords({ lat: Number(latitude), lng: Number(longitude) }))
+            }}
+            style={{ marginTop: '10px' }}
+            size={'small'}
+            variant="outlined"
+          >
+            Show on the map
+          </Button>
+        )}
       </CardContent>
 
       {!isSmaller && (

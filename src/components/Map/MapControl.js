@@ -42,7 +42,7 @@ const MapControl = () => {
 
   useEffect(() => {
     if (geoCoords) {
-      map.setView(geoCoords)
+      map.setView(geoCoords, 100);
     }
   }, [geoCoords]);
 

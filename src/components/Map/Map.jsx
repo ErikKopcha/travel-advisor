@@ -14,6 +14,10 @@ const Map = (props = {}) => {
   const dispatch = useDispatch();
   const { children } = props;
   const { coordinates, bounds } = useSelector(state => state.coordinates.value);
+  const { entities } = useSelector(state => state.places);
+  const filterData = useSelector((state) => state.filter.value);
+
+  const places = getFilteredArrayByRating(entities, filterData.rating);
 
   useEffect(() => {
     navigator.geolocation.getCurrentPosition(({ coords: { latitude, longitude } }) => {
@@ -26,18 +30,14 @@ const Map = (props = {}) => {
     dispatch(fetchPlaces(bounds));
   }, [bounds, coordinates]);
 
-  const { entities } = useSelector(state => state.places);
-  const filterData = useSelector((state) => state.filter.value);
-  const places = getFilteredArrayByRating(entities, filterData.rating);
-
   const icon = Leaflet.icon({
     iconUrl: "https://unpkg.com/leaflet@1.4.0/dist/images/marker-icon.png",
     iconSize: [25, 41],
     iconAnchor: [13, 0]
   });
 
-  const defaultProps = {
-    center: coordinates,
+  const mapData = {
+    center: [coordinates.lat, coordinates.lng],
     margin: [50, 50, 50, 50],
     zoom: 18,
     icon
@@ -45,8 +45,8 @@ const Map = (props = {}) => {
 
   return (
     <CustomMapContainer
-      center={[defaultProps.center.lat, defaultProps.center.lng]}
-      zoom={defaultProps.zoom}
+      center={mapData.center}
+      zoom={mapData.zoom}
     >
       {children}
       <TileLayer
@@ -56,16 +56,16 @@ const Map = (props = {}) => {
 
       {places.map((place) => {
         if (place.latitude && place.longitude) {
-          return (
-            <Marker
-              key={uuid()}
-              icon={defaultProps.icon}
-              position={[Number(place.latitude), Number(place.longitude)]}>
-              <Popup>
-                <ListItem place={place} isSmaller />
-              </Popup>
-            </Marker>
-          )
+          const marker = <Marker
+            key={uuid()}
+            icon={mapData.icon}
+            position={[Number(place.latitude), Number(place.longitude)]}>
+            <Popup>
+              <ListItem place={place} isSmaller />
+            </Popup>
+          </Marker>;
+
+          return marker;
         }
       })}
     </CustomMapContainer>
