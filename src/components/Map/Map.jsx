@@ -5,8 +5,8 @@ import uuid from 'react-uuid'
 import ListItem from '../ListItem';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
-import { setCoordinates, setGeoCoords } from '../../redux/slices/coordinatesSlice';
-import { fetchPlaces } from '../../redux/slices/placesSlice';
+import { setCoordinates, setGeoCoords } from '../../store/slices/coordinatesSlice';
+import { fetchPlaces } from '../../store/slices/placesSlice';
 import { getFilteredArrayByRating } from '../../helpers';
 import { CustomMapContainer } from './Map.styled';
 

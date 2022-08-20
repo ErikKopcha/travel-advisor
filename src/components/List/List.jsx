@@ -4,7 +4,7 @@ import { Alert, AlertTitle, FormControl, InputLabel, MenuItem, Select } from '@m
 import Typography from '@mui/material/Typography';
 import { ListWrap, FormControlWrap } from './List.styled';
 import { useDispatch, useSelector } from 'react-redux';
-import { changeRating, changeType } from '../../redux/slices/filterSlice';
+import { changeRating, changeType } from '../../store/slices/filterSlice';
 import { LOADING_TYPES, RATINGS, TYPES } from '../../types';
 import { getFilteredArrayByRating, getRandomRangeNum } from '../../helpers';
 import { amber, blue, common, green, indigo, lime, orange, pink, purple, red, teal } from '@mui/material/colors';
@@ -28,7 +28,7 @@ const List = () => {
         <Typography variant="h5">Restaurants, Hotels & Attractions around you</Typography>
 
         {isDefaultData && (
-          <Alert style={{ position: 'sticky', top: '0', zIndex: 999 }} variant="filled" severity="error">
+          <Alert className="alert" style={{ position: 'sticky', top: '0', zIndex: 999 }} variant="filled" severity="error">
             <AlertTitle><strong>WARNING!</strong></AlertTitle>
             <strong>
               The limit for receiving data from the server has been reached. <br/>

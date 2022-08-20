@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { setCoordinates, setGeoCoords } from '../../redux/slices/coordinatesSlice';
+import { setCoordinates, setGeoCoords } from '../../store/slices/coordinatesSlice';
 import PropTypes from 'prop-types';
 import CardHeader from '@mui/material/CardHeader';
 import Avatar from '@mui/material/Avatar';

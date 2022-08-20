@@ -10,3 +10,7 @@ a {
   overflow: hidden;
   border-radius: 20px;
 }
+
+.alert div:last-of-type {
+  width: 100%;
+}

@@ -1,7 +1,7 @@
 import { useMapEvents } from 'react-leaflet';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { setCoordinates, setBounds, setSelectedPopup } from '../../redux/slices/coordinatesSlice';
+import { setCoordinates, setBounds, setSelectedPopup } from '../../store/slices/coordinatesSlice';
 
 const MapControl = () => {
   const dispatch = useDispatch();
